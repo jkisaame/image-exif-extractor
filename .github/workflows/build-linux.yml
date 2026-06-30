@@ -75,7 +75,8 @@ jobs:
           xvfb-run -a ./dist/image_extractor_exif_linux_arm64 & 
           PID=\$! && 
           sleep 3 && 
-          kill \$PID || echo 'App ran successfully'
+          kill \$PID || echo 'App ran successfully' &&
+          chmod -R 777 dist/
           "
 
       - name: Upload ARM64 Artifact
