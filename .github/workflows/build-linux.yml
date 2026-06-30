@@ -36,9 +36,7 @@ jobs:
 
       - name: Validate Binary Functionality
         run: |
-          # Create a dummy JPEG with basic metadata properties
           xvfb-run -a python -c "from PIL import Image; img = Image.new('RGB', (100, 100), color='red'); img.save('test_image.jpg', 'JPEG')"
-          # Run the compiled binary using a headless display runner to test startup stability
           xvfb-run -a ./dist/image_extractor_exif_linux_x86 &
           PID=$!
           sleep 3
@@ -63,12 +61,12 @@ jobs:
 
       - name: Build Binary inside ARM64 Container
         run: |
-          docker run --rm --platform linux/arm64 -v ${{ github.workspace }}:/app wnameless/oracle-xe-11g-r2:latest /bin/bash -c "
+          docker run --rm --platform linux/arm64 -v ${{ github.workspace }}:/app ubuntu:22.04 /bin/bash -c "
           export DEBIAN_FRONTEND=noninteractive && 
           ln -fs /usr/share/zoneinfo/UTC /etc/localtime && 
           echo 'UTC' > /etc/timezone && 
           apt-get update && 
-          apt-get install -y python3 python3-pip python3-tk xvfb binutils && 
+          apt-get install -y python3 python3-pip python3-tk python3-dev libpython3-dev xvfb binutils && 
           cd /app && 
           python3 -m pip install --upgrade pip && 
           pip3 install -r requirements.txt pyinstaller && 
