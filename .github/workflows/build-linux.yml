@@ -76,7 +76,7 @@ jobs:
           PID=\$! && 
           sleep 3 && 
           kill \$PID || echo 'App ran successfully' &&
-          chmod -R 777 dist/
+          chmod -R 777 /app/dist/
           "
 
       - name: Upload ARM64 Artifact
